@@ -9,5 +9,6 @@ class Category extends Model
 {
     use HasFactory;
 
+    // title列の登録(Category::create)を許可する
     protected $fillable = ['title'];
 }
