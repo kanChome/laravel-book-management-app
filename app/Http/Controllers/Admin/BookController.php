@@ -6,15 +6,24 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BookPostRequest;
 use App\Models\Book;
 use App\Models\Category;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BookController extends Controller
 {
-    public function index(): Collection
+    public function index(): Response
     {
-        return Book::all();
+        $books = Book::with('category')
+            ->orderBy('category_id')
+            ->orderBy('title')
+            ->get();
+
+        return response()
+            ->view('admin.book.index', ['books' => $books])
+            ->header('Content-Type', 'text/html')
+            ->header('Content-Encoding', 'UTF-8');
     }
 
     public function show(string $id): Book
@@ -29,7 +38,7 @@ class BookController extends Controller
         ]);
     }
 
-    public function store(BookPostRequest $request): Book
+    public function store(BookPostRequest $request): RedirectResponse
     {
         $book = new Book();
 
@@ -39,6 +48,9 @@ class BookController extends Controller
 
         $book->save();
 
-        return $book;
+//        return $book;
+        return redirect()
+            ->route('book.index')
+            ->with('message', $book->title . 'を登録しました');
     }
 }
