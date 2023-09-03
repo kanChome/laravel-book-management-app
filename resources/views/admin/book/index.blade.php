@@ -1,35 +1,13 @@
-<!doctype html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>書籍一覧</title>
-</head>
-<body>
-    <main>
-        <h1>書籍一覧</h1>
-        @if (session('message'))
-            <div style="color:blue">
-                {{ session('message') }}
-            </div>
-        @endif
-        <a href="{{ route('book.create') }}">新規登録</a>
-        <table border="1">
-            <tr>
-                <th>カテゴリ</th>
-                <th>書籍名</th>
-                <th>価格</th>
-            </tr>
-            @foreach($books as $book)
-                <tr @if ($loop->even) style="background: #EEE" @endif>
-                    <td>{{ $book->category->title }}</td>
-                    <td>{{ $book->title }}</td>
-                    <td>{{ $book->price }}</td>
-                </tr>
-            @endforeach
-        </table>
-    </main>
-</body>
-</html>
+<x-layouts.book-manager>
+    <x-slot name="title">
+        書籍一覧
+    </x-slot>
+    @if (session('message'))
+        <x-alert class="info">
+            {{ session('message') }}
+        </x-alert>
+    @endif
+    <a href="{{ route('book.create') }}">新規登録</a>
+    <x-book-table :$books />
+</x-layouts.book-manager>
+
