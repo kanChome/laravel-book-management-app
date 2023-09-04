@@ -10,6 +10,7 @@ use App\Models\Category;
 use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class BookController extends Controller
@@ -52,9 +53,13 @@ class BookController extends Controller
         $book->title = $request->title;
         $book->price = $request->price;
 
-        $book->save();
-
-//        return $book;
+        DB::transaction(function () use ($book, $request) {
+            // 本を保存
+            $book->save();
+            // 著者を保存s
+            $book->authors()->attach($request->authors);
+        });
+        
         return redirect()
             ->route('book.index')
             ->with('message', $book->title . 'を登録しました');

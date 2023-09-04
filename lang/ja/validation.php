@@ -19,5 +19,7 @@ return [
         'category_id' => 'カテゴリーID',
         'price' => '価格',
         'title' => 'タイトル',
+        'authors' => '著者',
+        'authors.*' => '著者',
     ],
 ];

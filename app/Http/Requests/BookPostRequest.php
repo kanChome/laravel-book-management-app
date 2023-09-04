@@ -25,6 +25,8 @@ class BookPostRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'title' => 'required|unique:books|max:255',
             'price' => 'numeric|min:1|max:9999999',
+            'authors' => 'required|array',
+            'authors.*' => 'required|exists:authors,id',
         ];
     }
 }
