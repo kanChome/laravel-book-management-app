@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookPostRequest;
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Response;
@@ -26,16 +27,21 @@ class BookController extends Controller
             ->header('Content-Encoding', 'UTF-8');
     }
 
-    public function show(string $id): Book
+    public function show(Book $book): View
     {
-        return Book::findOrFail($id);
+        return view('admin.book.show', compact('book'));
     }
 
     public function create(): View
     {
-        return view('admin.book.create', [
-            'categories' => Category::all()
-        ]);
+        // カテゴリー一覧を表示するために全件取得
+        $categories = Category::all();
+
+        // 著者一覧を表示するために全件取得
+        $authors = Author::all();
+
+        return view('admin.book.create',
+            compact('categories', 'authors'));
     }
 
     public function store(BookPostRequest $request): RedirectResponse

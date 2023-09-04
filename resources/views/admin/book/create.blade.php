@@ -34,6 +34,20 @@
                 <label>価格</label>
                 <input type="text" name="price" value="{{ old('price') }}">
               </div>
+           <div>
+               <label>著者</label>
+               <ul>
+                   @foreach($authors as $author)
+                          <li>
+                              <label>
+                                  <input type="checkbox" name="authors[]" value="{{ $author->id }}"
+                                  @checked(is_array(old('authors')) && in_array($author->id, old('authors')))>
+                              </label>
+                              {{ $author->name }}
+                          </li>
+                   @endforeach
+               </ul>
+           </div>
            <input type="submit" value="送信">
        </form>
    </main>
