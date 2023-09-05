@@ -102,7 +102,7 @@ class BookController extends Controller
     {
         // 本を削除
         $book->delete();
-        
+
         return redirect()
             ->route('book.index')
             ->with('message', $book->title . 'を削除しました');
