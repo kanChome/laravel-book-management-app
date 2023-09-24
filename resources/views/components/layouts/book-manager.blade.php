@@ -10,7 +10,10 @@
 <body>
     <header>
         書籍管理システム
-        <hr>
+        <form action="{{ route('admin.destroy') }}" method="POST">
+            @csrf
+            <button type="submit">ログアウト</button>
+        </form>
     </header>
     <main>
         {{ $slot }}
